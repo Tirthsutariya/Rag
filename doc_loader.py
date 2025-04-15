@@ -22,6 +22,6 @@ def load_documents(pdf_file=None, pdf_path=None):
 def split_documents(documents):
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=1500,     # bigger to reduce number of chunks
-        chunk_overlap=300,   # increase overlap for better context retention
+        chunk_overlap=200,   # increase overlap for better context retention
     )
     return text_splitter.split_documents(documents)

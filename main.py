@@ -1,3 +1,20 @@
+import sys
+
+import asyncio
+
+if sys.platform == "win32":
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+# 🛠 Fix for Streamlit + Torch.classes crash
+if hasattr(sys, 'gettrace') and sys.gettrace():
+    import streamlit.watcher.local_sources_watcher as lsw
+
+    def safe_extract_paths(module):
+        try:
+            return list(getattr(module, "__path__", []))
+        except Exception:
+            return []
+    lsw.extract_paths = safe_extract_paths
+
 import streamlit as st
 from settings import load_config
 from doc_loader import load_documents, split_documents
@@ -89,4 +106,5 @@ def main():
         st.info("📂 Please upload a PDF to start chatting.")
 
 if __name__ == "__main__":
+    
     main()
